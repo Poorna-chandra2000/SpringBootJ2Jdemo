@@ -1,0 +1,46 @@
+package com.demoapringboot.springbasic.Controllers;
+
+import com.demoapringboot.springbasic.Dtos.ProductDto;
+import com.demoapringboot.springbasic.Services.ProductService;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(path = "/products")
+public class ProductController {
+
+
+    private final ProductService productService;
+    private final ModelMapper modelMapper;
+    ProductController(ProductService productService,ModelMapper modelMapper){
+        this.productService=productService;
+        this.modelMapper=modelMapper;
+    }
+
+    //Lombok error
+    //change lombok dependency and use stable version
+    //mvn clean install
+    @PostMapping
+    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto){
+
+       ProductDto posted=productService.createnewproduct(productDto);
+       return new ResponseEntity<>(posted,HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/{id}")
+    public  ResponseEntity<ProductDto> getByid(@PathVariable Long id){
+        return ResponseEntity.ok(productService.getbyid(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<String> delByid(@PathVariable Long id){
+        if(!productService.delbyid(id)){
+            return ResponseEntity.ok("id not found");
+        }
+        return ResponseEntity.ok("Successfully deleted id:"+id);
+    }
+
+}
