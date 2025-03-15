@@ -6,7 +6,9 @@ import com.demoapringboot.springbasic.Repositories.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -40,5 +42,34 @@ public class ProductService {
        productRepository.deleteById(id);
 
         return true;
+    }
+
+    public List<ProductDto> getall() {
+
+        List<Product> alldata=productRepository.findAll();
+
+        return alldata.stream()
+                .map(product -> modelMapper.map(product,ProductDto.class))
+                .collect(Collectors.toList());
+    }
+    public List<ProductDto> getmatchingproducts() {
+
+        List<Product> alldata=productRepository.findAll();
+
+        List<ProductDto> match=alldata.stream()
+                .filter(product -> product.getPname().equals("poorna"))
+                .map(product -> modelMapper.map(product,ProductDto.class))
+                .collect(Collectors.toList());
+       return match;
+
+    }
+
+    public List<ProductDto> getmatchingnames(String name) {
+
+        List<Product> alldata=productRepository.findByPnameContaining(name);//jpql
+
+
+        return alldata.stream().map(p->modelMapper.map(p, ProductDto.class)).collect(Collectors.toList());
+
     }
 }

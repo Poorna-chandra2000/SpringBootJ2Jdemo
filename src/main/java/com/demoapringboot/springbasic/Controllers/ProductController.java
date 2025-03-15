@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/products")
 public class ProductController {
@@ -35,6 +37,20 @@ public class ProductController {
         return ResponseEntity.ok(productService.getbyid(id));
     }
 
+    @GetMapping("/getall")
+    public  ResponseEntity<List<ProductDto>> getall(){
+        return ResponseEntity.ok(productService.getall());
+    }
+
+    @GetMapping("/matchingname")
+    public  ResponseEntity<List<ProductDto>> getallmatchingproducts(){
+        return ResponseEntity.ok(productService.getmatchingproducts());
+    }
+    @GetMapping("/{name}")
+    public  ResponseEntity<List<ProductDto>> getallmatchingnames(@PathVariable String name){
+        return ResponseEntity.ok(productService.getmatchingnames(name));
+    }
+
     @DeleteMapping("/{id}")
     public  ResponseEntity<String> delByid(@PathVariable Long id){
         if(!productService.delbyid(id)){
@@ -42,5 +58,7 @@ public class ProductController {
         }
         return ResponseEntity.ok("Successfully deleted id:"+id);
     }
+
+
 
 }
