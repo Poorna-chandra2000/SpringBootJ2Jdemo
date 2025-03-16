@@ -64,12 +64,11 @@ public class ProductService {
 
     }
 
-    public List<ProductDto> getmatchingnames(String name) {
+    public List<ProductDto> getmatchingnames(String pname) {
 
-        List<Product> alldata=productRepository.findByPnameContaining(name);//jpql
+        //Optional<Product> alldata=productRepository.findById(1l);//jpql select * from emp where id=id;
+        List<Product> productbyname=productRepository.findByPname(pname);
 
-
-        return alldata.stream().map(p->modelMapper.map(p, ProductDto.class)).collect(Collectors.toList());
-
+        return productbyname.stream().map(p->modelMapper.map(p, ProductDto.class)).collect(Collectors.toList());
     }
 }

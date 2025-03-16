@@ -46,10 +46,12 @@ public class ProductController {
     public  ResponseEntity<List<ProductDto>> getallmatchingproducts(){
         return ResponseEntity.ok(productService.getmatchingproducts());
     }
-    @GetMapping("/{name}")
+
+    @GetMapping("search/{name}")
     public  ResponseEntity<List<ProductDto>> getallmatchingnames(@PathVariable String name){
         return ResponseEntity.ok(productService.getmatchingnames(name));
     }
+
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<String> delByid(@PathVariable Long id){
