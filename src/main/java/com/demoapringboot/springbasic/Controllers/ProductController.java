@@ -52,6 +52,21 @@ public class ProductController {
         return ResponseEntity.ok(productService.getmatchingnames(name));
     }
 
+    @GetMapping("nameprice/{name}/{price}")
+    public  ResponseEntity<List<ProductDto>> getallbynameprice(@PathVariable String name,@PathVariable(name="price") Integer sal ){
+        return ResponseEntity.ok(productService.getallbynameprice(name,sal));
+    }
+
+    @GetMapping("price/{price}")
+    public  ResponseEntity<List<ProductDto>> getallbyprice(@PathVariable(name="price") Integer sal ){
+        return ResponseEntity.ok(productService.getallbyprice(sal));
+    }
+
+    @GetMapping("CustomQuery/{price}")
+    public  ResponseEntity<?> custom(@PathVariable(name="price") Integer sal ){
+        return ResponseEntity.ok(productService.customq(sal));
+    }
+
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<String> delByid(@PathVariable Long id){
@@ -60,6 +75,7 @@ public class ProductController {
         }
         return ResponseEntity.ok("Successfully deleted id:"+id);
     }
+
 
 
 

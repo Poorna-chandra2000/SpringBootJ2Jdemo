@@ -71,4 +71,21 @@ public class ProductService {
 
         return productbyname.stream().map(p->modelMapper.map(p, ProductDto.class)).collect(Collectors.toList());
     }
+
+    public List<ProductDto> getallbynameprice(String name, Integer sal) {
+
+      //  List<Product> products=productRepository.findByPnameAndPrice(name,sal);/and
+        List<Product> products=productRepository.findByPnameOrPrice(name,sal);
+        return products.stream().map(p->modelMapper.map(p,ProductDto.class)).collect(Collectors.toList());
+    }
+
+    public List<ProductDto> getallbyprice(Integer sal) {
+        List<Product> products=productRepository.findByPriceGreaterThan(sal);
+        return products.stream().map(p->modelMapper.map(p,ProductDto.class)).collect(Collectors.toList());
+    }
+
+    public Object customq(Integer sal) {
+        Integer count=productRepository.getcount(sal);
+        return count;
+    }
 }
